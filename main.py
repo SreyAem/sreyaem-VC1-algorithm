@@ -13,12 +13,13 @@ CELL_PLAYER = 5
 
 score = 0
 game_over = False
+win = False
 
 
 map = [
     [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
     [1,5,0,1,3,0,0,1,3,0,0,0,0,0,0,0,0,0,3,1],
-    [1,4,0,1,0,0,0,1,0,0,0,0,1,1,1,0,0,1,1,1],
+    [1,0,0,1,0,0,0,1,0,0,0,0,1,1,1,0,0,1,1,1],
     [1,0,0,1,1,0,0,1,1,1,0,0,1,0,1,0,0,0,0,1],
     [1,0,0,0,0,4,0,0,0,0,0,0,1,0,0,0,0,0,0,1],
     [1,0,0,0,0,0,0,0,0,0,0,4,1,3,0,0,1,0,0,1],
@@ -122,7 +123,7 @@ def canGoDown():
 
 
 def clickOnRigh(event):
-    global map,game_over
+    global map,game_over,win
     if canGoRight() and not game_over:
         player = getPlayerPosition()
 
@@ -131,6 +132,8 @@ def clickOnRigh(event):
 
         if map[playerRow][playerColumn+1] == CELL_BOMB :
             game_over = True
+        if map[playerRow][playerColumn+1] == CELL_EXIT :
+            win = True
 
         map[playerRow][playerColumn+1] = 5
         map[playerRow][playerColumn] = 0
@@ -139,7 +142,7 @@ def clickOnRigh(event):
 
 
 def clickOnLeft(event):
-    global map,game_over
+    global map,game_over,win
     if canGoLeft() and not game_over:
         player = getPlayerPosition()
 
@@ -148,6 +151,8 @@ def clickOnLeft(event):
 
         if map[playerRow][playerColumn-1] == CELL_BOMB :
             game_over = True
+        if map[playerRow][playerColumn+1] == CELL_EXIT :
+            win = True
 
         map[playerRow][playerColumn-1] = 5
         map[playerRow][playerColumn] = 0
@@ -155,7 +160,7 @@ def clickOnLeft(event):
         game()
         
 def clickOnUp(event):
-    global map,game_over
+    global map,game_over,win
     if canGoUp() and not game_over:
         player = getPlayerPosition()
 
@@ -164,6 +169,8 @@ def clickOnUp(event):
 
         if map[playerRow-1][playerColumn] == CELL_BOMB :
             game_over = True
+        if map[playerRow][playerColumn+1] == CELL_EXIT :
+            win = True
 
         map[playerRow-1][playerColumn] = 5
         map[playerRow][playerColumn] = 0
@@ -172,7 +179,7 @@ def clickOnUp(event):
 
 
 def clickOnDown(event):
-    global map,game_over
+    global map,game_over,win
     if canGoDown() and not game_over:
         player = getPlayerPosition()
 
@@ -181,23 +188,64 @@ def clickOnDown(event):
 
         if map[playerRow+1][playerColumn] == CELL_BOMB :
             game_over = True
+        if map[playerRow][playerColumn+1] == CELL_EXIT :
+            win = True
 
         map[playerRow+1][playerColumn] = 5
         map[playerRow][playerColumn] = 0
         
         game()
+      
 
 
 def game() :
-    global game_over
+    global game_over,win
     if game_over :
         drawMap()
-        canvas.create_text(700,200,fill="darkblue",font="Times 20 italic bold",text="GAME OVER")
+        canvas.create_text(700,200,fill="red",font="Times 20 italic bold",text="GAME OVER")
         a = Button(text="Play Again", bd="10", command=play_Again)
         a.place(relx=0.87, rely=0.5, anchor=CENTER)
-        
+
+    elif win :
+        player_Win()
+        canvas.create_text(300,250,fill="yellow",font="Times 30 italic bold",text="YOUR SCORE")
+        canvas.create_text(300,300,fill="yellow",font="Times 30 italic bold",text=score)
+        canvas.create_text(700,200,fill="green",font="Times 20 italic bold",text="YOU WIN")
+        b = Button(text="Play Again", bd="10", command=play_Again)
+        b.place(relx=0.87, rely=0.5, anchor=CENTER)
+
     else: 
         return drawMap()
+
+
+
+def player_Win() :
+    canvas.delete("all")
+    global map,score
+
+    win = False
+
+    map = [
+        [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
+        [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
+        [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
+        [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
+        [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
+        [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
+        [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
+        [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
+        [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
+        [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
+        [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
+        [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
+        [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
+        [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
+        [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
+        [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
+        [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
+        [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
+    ]
+    drawMap()
 
 
 def play_Again() :
@@ -207,24 +255,25 @@ def play_Again() :
 
     score=0
     game_over = False
+
     map = [
     [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
-    [1,5,0,1,3,0,0,1,3,0,0,0,0,0,0,0,0,0,3,1],
+    [1,5,0,1,4,0,3,1,0,0,3,0,0,0,0,0,0,0,3,1],
     [1,0,0,1,0,0,0,1,0,0,0,0,1,1,1,0,0,1,1,1],
-    [1,0,0,1,1,0,0,1,1,1,0,0,1,0,1,0,0,0,0,1],
+    [1,4,0,1,1,0,0,1,1,1,0,0,1,0,1,0,0,0,4,1],
     [1,0,0,0,0,4,0,0,0,0,0,0,1,0,0,0,0,0,0,1],
     [1,0,0,0,0,0,0,0,0,0,0,4,1,3,0,0,1,0,0,1],
     [1,1,1,1,0,0,1,0,0,1,1,1,1,1,1,1,1,0,0,1],
-    [1,3,4,1,0,0,1,3,3,1,3,4,3,1,0,0,0,0,0,1],
+    [1,3,4,1,0,0,1,3,4,1,3,4,3,1,0,0,0,0,0,1],
     [1,0,0,1,0,0,1,1,1,1,0,0,0,1,0,0,1,1,1,1],
-    [1,0,0,0,0,0,0,0,1,0,0,0,0,1,0,0,1,3,0,1],
+    [1,0,0,0,0,0,0,0,1,0,0,0,0,1,0,0,1,4,3,1],
     [1,0,0,1,0,0,0,3,1,0,0,0,0,1,0,0,1,0,0,1],
     [1,0,0,1,1,1,1,1,1,1,0,0,1,1,0,0,0,0,0,1],
     [1,1,1,1,3,0,0,0,0,0,0,0,0,0,0,0,1,0,0,1],
     [1,3,0,1,0,0,0,0,3,0,0,0,0,3,0,0,1,4,4,1],
     [1,0,0,1,1,1,0,1,1,1,0,0,1,1,1,0,1,1,1,1],
     [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
-    [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,2],
+    [1,0,3,1,0,3,0,1,0,0,3,0,0,1,0,0,0,0,0,2],
     [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1] 
     ]
     drawMap()
@@ -286,6 +335,8 @@ bomb = PhotoImage(file="bomb.png")
 player = PhotoImage(file="femaleAdventurer_walk1.png")
 exit = PhotoImage(file="signExit.png")
 bg = PhotoImage(file="fae_BG.png")
+
+
 
 
 canvas.pack(expand=True, fill='both')
