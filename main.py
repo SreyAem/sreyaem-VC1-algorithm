@@ -1,8 +1,5 @@
-# import tkinter as tk
-# Import module  
 from tkinter import *
 
-# CONSTANTS
 WINDOWS_WIDTH = 600
 WINDOWS_HEIGHT = 600
 
@@ -17,14 +14,14 @@ CELL_WORM = 6
 score = 0
 game_over = False
 
-# VARIABLES
+
 map = [
     [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
     [1,5,0,1,3,0,0,1,3,0,0,0,0,0,0,0,0,0,3,1],
     [1,0,0,1,0,0,0,1,0,0,0,0,1,1,1,0,0,1,1,1],
     [1,0,0,1,1,0,0,1,1,1,0,0,1,0,1,0,0,0,0,1],
     [1,0,0,0,0,4,0,0,0,0,0,0,1,0,0,0,0,0,0,1],
-    [1,6,0,0,0,0,0,0,0,0,0,4,1,3,0,0,1,0,0,1],
+    [1,0,0,0,0,0,0,0,0,0,0,4,1,3,0,0,1,0,0,1],
     [1,1,1,1,0,0,1,0,0,1,1,1,1,1,1,1,1,0,0,1],
     [1,3,4,1,0,0,1,3,3,1,3,4,3,1,0,0,0,0,0,1],
     [1,0,0,1,0,0,1,1,1,1,0,0,0,1,0,0,1,1,1,1],
@@ -38,30 +35,6 @@ map = [
     [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,2],
     [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1] 
 ]
-
-
-# def getWormPosition():
-#     global map
-#     playerRow = -1
-#     playerColumn = -1
-
-
-#     for rowIndex in range(len(map)) :
-#         if 6 in map[rowIndex] :
-#             playerRow = rowIndex
-#     for columnIndex in range(len(map[playerRow])):
-#         if map[playerRow][columnIndex] == 5 :
-#             playerColumn = columnIndex
-
-#     # TODO
-#     return  [playerRow, playerColumn]
-
-
-# def wormGreen_move():
-#     global map,game_over
-#     if not game_over :
-
-        
 
 
 def getPlayerPosition():
@@ -93,9 +66,6 @@ def canGo(cell):
         score += 10
         result = True
     elif cell == CELL_BOMB :
-        score -= 15
-        result = True
-    elif cell == CELL_WORM :
         result = True
 
 
@@ -159,14 +129,12 @@ def clickOnRigh(event):
         playerRow = player[0]
         playerColumn = player[1]
 
-        # find worm cell
-        if map[playerRow][playerColumn+1] == CELL_WORM :
+        if map[playerRow][playerColumn+1] == CELL_BOMB :
             game_over = True
 
         map[playerRow][playerColumn+1] = 5
         map[playerRow][playerColumn] = 0
         
-        # drawMap()
         game()
 
 
@@ -178,14 +146,12 @@ def clickOnLeft(event):
         playerRow = player[0]
         playerColumn = player[1]
 
-        # find worm
-        if map[playerRow][playerColumn-1] == CELL_WORM :
+        if map[playerRow][playerColumn-1] == CELL_BOMB :
             game_over = True
 
         map[playerRow][playerColumn-1] = 5
         map[playerRow][playerColumn] = 0
         
-        # drawMap()
         game()
         
 def clickOnUp(event):
@@ -196,14 +162,12 @@ def clickOnUp(event):
         playerRow = player[0]
         playerColumn = player[1]
 
-        # find worm
-        if map[playerRow-1][playerColumn] == CELL_WORM :
+        if map[playerRow-1][playerColumn] == CELL_BOMB :
             game_over = True
 
         map[playerRow-1][playerColumn] = 5
         map[playerRow][playerColumn] = 0
         
-        # drawMap()  
         game()    
 
 
@@ -215,14 +179,12 @@ def clickOnDown(event):
         playerRow = player[0]
         playerColumn = player[1]
 
-        # find worm
-        if map[playerRow+1][playerColumn] == CELL_WORM :
+        if map[playerRow+1][playerColumn] == CELL_BOMB :
             game_over = True
 
         map[playerRow+1][playerColumn] = 5
         map[playerRow][playerColumn] = 0
         
-        # drawMap()
         game()
 
 
@@ -230,19 +192,48 @@ def game() :
     global game_over
     if game_over :
         drawMap()
-        canvas.create_text(300,300,fill="darkblue",font="Times 40 italic bold",text="GAME OVER")
-        # Create a Button
-        btn = Button(root, text = 'Click me !', bd = '5',command = root.destroy) 
- 
-        # Set the position of button on the top of window.   
-        btn.pack()  
+        canvas.create_text(300,200,fill="darkblue",font="Times 40 italic bold",text="GAME OVER")
+        a = Button(text="Play Again", bd="10", command=play_Again)
+        a.place(relx=0.5, rely=0.5, anchor=CENTER)
+        
     else: 
         return drawMap()
+
+
+def play_Again() :
+    
+    canvas.delete("all")
+    global map,game_over,score
+
+    score=0
+    game_over = False
+    map = [
+    [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
+    [1,5,0,1,3,0,0,1,3,0,0,0,0,0,0,0,0,0,3,1],
+    [1,0,0,1,0,0,0,1,0,0,0,0,1,1,1,0,0,1,1,1],
+    [1,0,0,1,1,0,0,1,1,1,0,0,1,0,1,0,0,0,0,1],
+    [1,0,0,0,0,4,0,0,0,0,0,0,1,0,0,0,0,0,0,1],
+    [1,0,0,0,0,0,0,0,0,0,0,4,1,3,0,0,1,0,0,1],
+    [1,1,1,1,0,0,1,0,0,1,1,1,1,1,1,1,1,0,0,1],
+    [1,3,4,1,0,0,1,3,3,1,3,4,3,1,0,0,0,0,0,1],
+    [1,0,0,1,0,0,1,1,1,1,0,0,0,1,0,0,1,1,1,1],
+    [1,0,0,0,0,0,0,0,1,0,0,0,0,1,0,0,1,3,0,1],
+    [1,0,0,1,0,0,0,3,1,0,0,0,0,1,0,0,1,0,0,1],
+    [1,0,0,1,1,1,1,1,1,1,0,0,1,1,0,0,0,0,0,1],
+    [1,1,1,1,3,0,0,0,0,0,0,0,0,0,0,0,1,0,0,1],
+    [1,3,0,1,0,0,0,0,3,0,0,0,0,3,0,0,1,0,0,1],
+    [1,0,0,1,1,1,0,1,1,1,0,0,1,1,1,0,1,1,1,1],
+    [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
+    [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,2],
+    [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1] 
+    ]
+    drawMap()
 
 
 def drawMap():
     canvas.delete("all")
     global map,score
+    canvas.create_image(300,265, image=bg)
     size = 30
 
     x = 15
@@ -268,8 +259,6 @@ def drawMap():
             elif value == CELL_PLAYER :
                 canvas.create_image(x,y, image=player)
             
-            elif value == CELL_WORM :
-                canvas.create_image(x,y, image=worm)
         
             x += size
             
@@ -278,35 +267,33 @@ def drawMap():
 
     canvas.create_text(300,555,fill="darkblue",font="Times 20 italic bold",text="Your Score")
     canvas.create_text(300,580,fill="darkblue",font="Times 20 italic bold",text=score)
+    
 
 
-# Create an empty window
 
-  
-# Create object  
 root = Tk() 
 root.geometry( str(WINDOWS_WIDTH) +"x" + str(WINDOWS_HEIGHT))
 canvas = Canvas(root)
  
-# Image
+
 wall = PhotoImage(file="boxCrate_double.png")
 coin = PhotoImage(file="gold_1.png")
 bomb = PhotoImage(file="bomb.png")
 player = PhotoImage(file="femaleAdventurer_walk1.png")
 exit = PhotoImage(file="signExit.png")
-worm = PhotoImage(file="wormGreen_move.png")
+bg = PhotoImage(file="fae_BG.png")
 
-# pack means "draw what i put inside"
+
 canvas.pack(expand=True, fill='both')
 
-# Click
+
 root.bind("<Right>",clickOnRigh)
 root.bind("<Left>",clickOnLeft)
 root.bind("<Up>",clickOnUp)
 root.bind("<Down>",clickOnDown)
 
-# Draw 
+
 drawMap()
 
-# Display all
+
 root.mainloop()
