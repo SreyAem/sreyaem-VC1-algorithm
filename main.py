@@ -1,7 +1,7 @@
 from tkinter import *
 
-WINDOWS_WIDTH = 600
-WINDOWS_HEIGHT = 600
+WINDOWS_WIDTH = 800
+WINDOWS_HEIGHT = 540
 
 CELL_EMPTY = 0
 CELL_WALL = 1
@@ -9,7 +9,7 @@ CELL_EXIT = 2
 CELL_COIN = 3
 CELL_BOMB = 4
 CELL_PLAYER = 5
-CELL_WORM = 6
+
 
 score = 0
 game_over = False
@@ -18,7 +18,7 @@ game_over = False
 map = [
     [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
     [1,5,0,1,3,0,0,1,3,0,0,0,0,0,0,0,0,0,3,1],
-    [1,0,0,1,0,0,0,1,0,0,0,0,1,1,1,0,0,1,1,1],
+    [1,4,0,1,0,0,0,1,0,0,0,0,1,1,1,0,0,1,1,1],
     [1,0,0,1,1,0,0,1,1,1,0,0,1,0,1,0,0,0,0,1],
     [1,0,0,0,0,4,0,0,0,0,0,0,1,0,0,0,0,0,0,1],
     [1,0,0,0,0,0,0,0,0,0,0,4,1,3,0,0,1,0,0,1],
@@ -192,9 +192,9 @@ def game() :
     global game_over
     if game_over :
         drawMap()
-        canvas.create_text(300,200,fill="darkblue",font="Times 40 italic bold",text="GAME OVER")
+        canvas.create_text(700,200,fill="darkblue",font="Times 20 italic bold",text="GAME OVER")
         a = Button(text="Play Again", bd="10", command=play_Again)
-        a.place(relx=0.5, rely=0.5, anchor=CENTER)
+        a.place(relx=0.87, rely=0.5, anchor=CENTER)
         
     else: 
         return drawMap()
@@ -221,7 +221,7 @@ def play_Again() :
     [1,0,0,1,0,0,0,3,1,0,0,0,0,1,0,0,1,0,0,1],
     [1,0,0,1,1,1,1,1,1,1,0,0,1,1,0,0,0,0,0,1],
     [1,1,1,1,3,0,0,0,0,0,0,0,0,0,0,0,1,0,0,1],
-    [1,3,0,1,0,0,0,0,3,0,0,0,0,3,0,0,1,0,0,1],
+    [1,3,0,1,0,0,0,0,3,0,0,0,0,3,0,0,1,4,4,1],
     [1,0,0,1,1,1,0,1,1,1,0,0,1,1,1,0,1,1,1,1],
     [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
     [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,2],
@@ -233,7 +233,7 @@ def play_Again() :
 def drawMap():
     canvas.delete("all")
     global map,score
-    canvas.create_image(300,265, image=bg)
+    canvas.create_image(250,265, image=bg)
     size = 30
 
     x = 15
@@ -265,8 +265,12 @@ def drawMap():
         x = 15
         y += size
 
-    canvas.create_text(300,555,fill="darkblue",font="Times 20 italic bold",text="Your Score")
-    canvas.create_text(300,580,fill="darkblue",font="Times 20 italic bold",text=score)
+    canvas.create_text(700,80,fill="darkblue",font="Times 20 italic bold",text="Your Score")
+    canvas.create_text(700,130,fill="darkblue",font="Times 20 italic bold",text=score)
+    canvas.create_text(700,350,fill="darkblue",font="Times 15 italic bold",text="Collect The Coins")
+    canvas.create_text(700,400,fill="red",font="Times 15 italic bold",text="Warning: ")
+    canvas.create_text(700,450,fill="red",font="Times 10 italic bold",text="Becareful for the BOMB")
+
     
 
 
